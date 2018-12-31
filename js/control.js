@@ -235,7 +235,4 @@ function MostrarTodos() {
 	
 	}
 	
-}
-				
-
-				
+}			
