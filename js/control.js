@@ -19,3 +19,69 @@ function BuscarCampos(){
 		else if (valorTipo.length != 0){
 			
 			FiltraTipo();
+			}
+		else if (valorCiudad.length == 0 && valorTipo.length == 0){
+	
+			let res = document.querySelector('#res');
+			res.innerHTML = '';
+		}
+}
+
+function FiltraTipo() {
+	var vTipo = $("#selectTipo").val();
+
+	var vPrecio= $("#rangoPrecio").val();
+	var vp = vPrecio.split(";",2);
+	
+	const datosarray = new XMLHttpRequest();
+	datosarray.open('GET','data-1.json',true);
+	datosarray.send();
+	datosarray.onreadystatechange = function(){
+		
+		if(this.readyState == 4 && this.status == 200){
+			var datos = JSON.parse(datosarray.responseText);
+			let res = document.querySelector('#res');
+			res.innerHTML = '';
+			
+			for(var i in datos){
+				var ValorPrecio = datos[i].Precio;
+				var nValorPrecio=""
+				if (ValorPrecio.length == 6){var nValorPrecio = ValorPrecio.substring(1,2)+ValorPrecio.substring(3,6);}
+				else if (ValorPrecio.length == 7){var nValorPrecio = ValorPrecio.substring(1,3)+ValorPrecio.substring(4,7);}
+
+				if (datos[i].Tipo==vTipo && (parseInt(nValorPrecio)>=parseInt(vp[0]) && parseInt(nValorPrecio)<=parseInt(vp[1])))
+{
+				res.innerHTML +=`
+				<div class="tituloContenido card" >
+				<table  border=0 rules="all" cellspacing=0 cellpadding=0>
+				<tr>
+				<td>
+					<img src="img/home.jpg" alt="" width="300" height="230" border="0"/>
+				</td>
+					<td style="FONT-SIZE:13px; COLOR:#000000; LINE-HEIGHT:10px; FONT-FAMILY:Arial,Helvetica,sans-serif" width="500">
+					
+					<p><b>Direccion: </b>${datos[i].Direccion}</p>
+					<p><b>Ciudad: </b>${datos[i].Ciudad}</p>
+					<p><b>Telefono: </b>${datos[i].Telefono}</p>
+					<p><b>Codigo Postal:</b> ${datos[i].Codigo_Postal}</p>
+					<p><b>Tipo:</b> ${datos[i].Tipo}</p>
+					<FONT SIZE=2><b>Precio: </b></font><FONT SIZE=4 color='#F4A460'>${datos[i].Precio}</font>
+					<br/><br/><br/>
+					<div class="divider"></div>
+					<br/><br/><br/>
+					<p align="right"></font><FONT SIZE=2>VER MAS</font></p>
+					
+				</td>
+				</tr>
+				</table> 
+				</div>
+				`
+				}
+			}
+		}
+	
+	}
+}		
+
+
+
