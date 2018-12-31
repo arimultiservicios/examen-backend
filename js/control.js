@@ -191,3 +191,47 @@ function FiltraCampos() {
 	}
 }		
 
+function MostrarTodos() {
+	const arreglo = new XMLHttpRequest();
+	arreglo.open('GET','data-1.json',true);
+	arreglo.send();
+	arreglo.onreadystatechange = function(){
+
+		if(this.readyState == 4 && this.status == 200){
+			let datos = JSON.parse(this.responseText);
+			let res = document.querySelector('#res');
+			res.innerHTML = '';
+			
+			for(let item of datos){
+				res.innerHTML +=`
+				<div class="tituloContenido card">
+				<table  border=0 rules="all" cellspacing=0 cellpadding=0>
+				<tr>
+				<td>
+					<img src="img/home.jpg" alt="" width="300" height="230" border="0"/>
+				</td>
+					<td style="FONT-SIZE:13px; COLOR:#000000; LINE-HEIGHT:10px; FONT-FAMILY:Arial,Helvetica,sans-serif" width="500">
+					
+					<p><b>Direccion: </b>${item.Direccion}</p>
+					<p><b>Ciudad: </b>${item.Ciudad}</p>
+					<p><b>Telefono: </b>${item.Telefono}</p>
+					<p><b>Codigo Postal:</b> ${item.Codigo_Postal}</p>
+					<p><b>Tipo:</b> ${item.Tipo}</p>
+					<FONT SIZE=2><b>Precio: </b></font><FONT SIZE=4 color='#F4A460'>${item.Precio}</font>
+					<br/><br/><br/>
+					<div class="divider"></div>
+					<br/><br/><br/>
+					<p align="right"></font><FONT SIZE=2>VER MAS</font></p>
+					
+				</td>
+				</tr>
+			</table> 
+				</div>
+				`
+			}
+		}
+	
+	}
+	
+}
+
